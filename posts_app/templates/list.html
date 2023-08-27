@@ -8,6 +8,7 @@
             <p class="post_description">{{ post.description }}</p>
             <hr>
             <p class="post_meta_data">{{ post.author }} {{ post.date_time }}</p>
+            <a href="{% url 'complaints' post.pk %}">Submit Complaint</a>
         </div>
     {% endfor %}
     </div>

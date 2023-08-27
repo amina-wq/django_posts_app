@@ -64,3 +64,19 @@ class PostRatings(models.Model):
         else:
             like = 'DISLIKE'
         return f'{self.post.title} {self.author.username} {like}'
+
+
+class Complaints(models.Model):
+    post = models.ForeignKey(Posts, on_delete=models.CASCADE)
+    title = models.CharField(max_length=200)
+    description = models.TextField()
+    date_time = models.DateTimeField(default=timezone.now())
+
+    class Meta:
+        app_label = "posts"
+        ordering = ("-date_time", "title")
+        verbose_name = "Create complaint"
+        verbose_name_plural = "Create complaints"
+
+    def __str__(self):
+        return f'{self.title} {self.description} {self.date_time}'

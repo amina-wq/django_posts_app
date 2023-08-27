@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Posts, PostComments, PostRatings
+from .models import Posts, PostComments, PostRatings, Complaints
 
 
 @admin.register(Posts)
@@ -19,6 +19,11 @@ class PostCommentsAdmin(admin.ModelAdmin):
 class PostRatingsAdmin(admin.ModelAdmin):
     list_display = ('post', 'author', 'status')
     list_filter = ('post', 'author', 'status')
+
+@admin.register(Complaints)
+class ComplaintsAdmin(admin.ModelAdmin):
+    list_display = ('post', 'title', 'description', 'date_time')
+    list_filter = ('post', 'title', 'description', 'date_time')
 
 
 

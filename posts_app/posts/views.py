@@ -5,7 +5,8 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpRequest
 from django.urls import reverse
 
-from .models import Posts
+from . import models
+from .models import Posts, Complaints
 
 
 def login_view(request: HttpRequest) -> HttpResponse:
@@ -74,3 +75,23 @@ def post_create(request: HttpRequest) -> HttpResponse:
 def home(request: HttpRequest) -> HttpResponse:
     posts_obj = Posts.objects.all().filter(is_moderate='True')
     return render(request, 'list.html', {'list': posts_obj})
+
+
+def create_complaints(request: HttpRequest, pk: str) -> HttpResponse:
+    post = models.Posts.objects.get(pk=pk)
+    if request.method == 'GET':
+        return render(request, 'complaints.html', {'pk': pk})
+    elif request.method == 'POST':
+        title = request.POST.get('title')
+        description = request.POST.get('description')
+
+        Complaints.objects.create(
+            post=post,
+            title=title,
+            description=description
+        )
+
+        return redirect(reverse('home'))
+    else:
+        raise Exception('Method is not allowed!')
+
